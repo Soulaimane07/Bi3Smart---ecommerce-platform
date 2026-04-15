@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux';
 import {loadStripe} from '@stripe/stripe-js';
+import { BaseUrl } from './Functions';
 
 function OrderSummery({page, Orderdata}) {
     let price = useSelector(state => state.Panier.price); 
     let productsSelected=useSelector((state)=>state.Panier.productsSelected)
     let products=useSelector((state)=>state.Panier.products)
     const condition = Orderdata?.fname ==="" || Orderdata?.lname ==="" || Orderdata?.tel ==="" || Orderdata?.add ==="" ||Orderdata?.paiment === null || Orderdata?.products?.length === 0
-    
 
     let image =[
       '../images/visa.svg',
@@ -48,19 +48,24 @@ function OrderSummery({page, Orderdata}) {
 
       let productsDetails = []
   
-        productsSelected?.map((item,key)=>(
-          productsDetails = [...products?.filter((itemm)=> itemm.id == item), ...productsDetails]
+        productsSelected?.map((item)=>(
+          productsDetails = [...products?.filter((itemm)=> itemm.id === item), ...productsDetails]
         ))
+        
 
       const stripe = await loadStripe("pk_test_51PC4svCTx4GzaOVoTMOKKaZfg7nX0Vm548xLg8vW82EibDbPsMS1Wp3lfwcdz0t6fmYGNdWxnku9wiJy3o7XXuZD00dRswdDvl")
       const body = productsDetails
       const headers = {"Content-Type": "application/json"}
       
-      const response = await fetch('http://127.0.0.1:8000/payment/checkout/', {
+      const response = await fetch(`${BaseUrl}/payment/checkout/`, {
         method: "POST",
         headers: headers,
         body: JSON.stringify(body)
       })
+
+      !response.ok && setLoading(false)
+      
+
 
       const session = await response.json()
 
@@ -76,13 +81,13 @@ function OrderSummery({page, Orderdata}) {
     
 
   return (
-    <div className={`${navbar ? 'top-6' : 'top-36'} transition-all w-96 h-60 right-0 sticky`}>
+    <div className={`${navbar ? 'top-6' : 'top-36'} transition-all w-full md:w-96 md:mb-0 mb-10 right-0 md:sticky`}>
     <div className='bg-gray-100 py-6 px-6 mb-4 rounded-md'>
       <div>
         <h1 className='text-2xl mb-2 font-bold'>Order Summary</h1>
         <h2 className='text-2xl'>${price}</h2>
         {page === "panier" &&(
-            <button onClick={Commander} className={`bg-blue-500 flex justify-center text-white w-full py-2 text-center mt-6 rounded-lg  ${productsSelected.length==0 ? 'opacity-40 cursor-default':'opacity-100  hover:scale-105 transition-all'} `}>
+            <button onClick={Commander} className={`bg-blue-500 flex justify-center text-white w-full py-2 text-center mt-6 rounded-lg  ${productsSelected?.length === 0 ? 'opacity-40 cursor-default':'opacity-100  hover:scale-105 transition-all'} `}>
                 {!loading 
                   ? <p> Checkout Now ({productsSelected.length})</p>
                   :

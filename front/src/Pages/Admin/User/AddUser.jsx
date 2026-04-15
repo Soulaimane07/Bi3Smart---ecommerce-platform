@@ -6,6 +6,7 @@ import { FaArrowLeft } from "react-icons/fa6";
 import axios from 'axios';
 import SellerNavbar from '../../../Components/Navbar/Seller/SellerNavbar';
 import { useNavigate } from 'react-router-dom';
+import { BaseUrl } from '../../../Components/Functions';
 
 const Buttons = ({createFun, condittion}) => {
   return(
@@ -44,7 +45,7 @@ function AddUser() {
         // e.preventDefault();
         console.log("Created !");
 
-        axios.post('http://127.0.0.1:8000/api/users/', newUser, {
+        axios.post(`${BaseUrl}/api/users/`, newUser, {
             headers: {
               "Content-Type": "multipart/form-data",
             },

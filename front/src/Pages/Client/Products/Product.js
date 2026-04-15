@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { sizes } from '../../../Components/Functions';
+import { BaseUrl, sizes } from '../../../Components/Functions';
 import { LiaShippingFastSolid } from "react-icons/lia";
 import { BsBox2 } from "react-icons/bs";
 import { HiOutlineInboxArrowDown } from "react-icons/hi2";
@@ -37,7 +37,7 @@ function Product() {
                 "size": size
             }
         
-            axios.post('http://127.0.0.1:8000/api/panier/', panier)
+            axios.post(`${BaseUrl}/api/panier/`, panier)
                 .then((res)=> {
                     dispatch(getPanier(userId))
                     dispatch(productActions.openAdded())
@@ -59,12 +59,11 @@ function Product() {
 
   return (
     <div className='fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-30 transition-all w-full h-full z-40 mx-0 flex justify-center items-center'>
-        <div className='relative flex items-stretch space-x-6 bg-white text-black h-fit w-1/2 rounded-lg py-10 px-10'>
-            
-            <div className='w-1/2 rounded-md overflow-hidden'>
-                <img src={productItem.image} alt='' className='w-full h-full' />
+        <div className='relative flex flex-col md:flex-row items-stretch md:space-x-8 bg-white text-black h-fit w-full mx-4 md:w-1/2 rounded-lg py-4 md:py-10 px-4 md:px-10'>
+            <div style={{ backgroundImage: `url(${productItem.image})` }} className='w-full md:w-1/3 h-40 md:h-auto bg-contain; bg-cover rounded-md overflow-hidden bg-red-600 '>
+                {/* <img src={productItem.image} alt='' className=' max-h-full h-auto' /> */}
             </div>
-            <div className='flex-1 flex flex-col clear-start'>
+            <div className='flex-1 flex flex-col clear-start mt-6 md:mt-0'>
                 <div className='flex-1 h-full'>
                     <h1 className='text-2xl font-medium'> {productItem.titre} </h1>
                     <h2 className='text-2xl font-bold mt-2'> ${productItem.prix} </h2>
@@ -106,10 +105,9 @@ function Product() {
                 > Add to cart </button>
             </div>
             
-            <button onClick={closeProduct} className=' absolute top-4 right-10 hover:scale-110 opacity-70  transition-all'>
+            <button onClick={closeProduct} className=' absolute top-4 right-4 md:right-10 hover:scale-110 opacity-70  transition-all'>
                 <IoClose size={24} />
             </button>
-
             
 
             {addedToPanier &&

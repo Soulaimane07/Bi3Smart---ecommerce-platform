@@ -6,6 +6,7 @@ import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { Link } from 'react-router-dom';
 import { favoritsActions } from '../../redux/Slices/FavoritsSlice';
 import { panierActions } from '../../redux/Slices/PanierSlices';
+import { BaseUrl } from '../Functions';
 
 
 function Profile({close}) {
@@ -22,7 +23,7 @@ function Profile({close}) {
     }
 
     const RequestSeller = () => {
-        fetch("http://127.0.0.1:8000/api/sellerrequests/", {
+        fetch(`${BaseUrl}/api/sellerrequests/`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -41,7 +42,7 @@ function Profile({close}) {
     user.role === 'seller' && (path = '/seller/dashboard')
     
     return (
-        <div className='ProfileBox bg-gray-100 px-6 py-4 absolute right-20 top-20 w-72 rounded-md'>
+        <div className='ProfileBox w-full bg-gray-100 px-6 py-4 absolute left-0 md:left-auto md:right-20 top-20 md:w-72 rounded-md'>
             {user &&
                 <>
                     <button onClick={()=> close(false)} className='absolute top-4 right-4 hover:scale-110 transition-all'><IoCloseOutline size={26} /></button>

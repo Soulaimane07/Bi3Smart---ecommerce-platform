@@ -4,7 +4,7 @@ import { CiTrash } from 'react-icons/ci';
 import { BiEditAlt } from "react-icons/bi";
 import { IoAdd } from "react-icons/io5";
 import { Link } from 'react-router-dom';
-import { GetUsers,Removeuser,GetSellers } from '../../../Components/Functions';
+import { GetUsers,Removeuser,GetSellers, BaseUrl } from '../../../Components/Functions';
 import axios from 'axios';
 import {useNavigate } from 'react-router-dom';
 
@@ -17,7 +17,7 @@ function User() {
          //e.preventDefault();
         console.log("Updated !");
         const newUserData={role:"seller"}
-        axios.patch(`http://127.0.0.1:8000/api/users/${id}/`, newUserData, {
+        axios.patch(`${BaseUrl}/api/users/${id}/`, newUserData, {
             headers: {
               "Content-Type": "multipart/form-data",
             },

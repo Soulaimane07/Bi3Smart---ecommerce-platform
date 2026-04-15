@@ -44,20 +44,20 @@ function Navbar() {
     window.addEventListener('scroll',changebg)
 
   return (
-    <header className={`${navbar ? '-top-32' : 'top-0'} -top-32 drop-shadow-md bg-white transition-all fixed overflow-visible  w-full  z-30 text-black px-6 md:px-16`}>
+    <header className={`${navbar ? '-top-32' : 'top-0'} -top-32 drop-shadow-md bg-white transition-all fixed overflow-visible w-full  z-30 text-black px-2 md:px-16`}>
         <nav className='relative px-4 pt-4 w-full flex justify-between items-center'>
-            <Link to="/"><img className='h-16' src="../images/logoblack.png" alt="logo" />  </Link>
+            <Link to="/"> <img className='h-10 md:h-16' src="../images/logoblack.png" alt="logo" /> </Link>
 
             <Search />
 
             <div className='flex items-center space-x-4 md:space-x-6'>
-                <Link to={"/favorits"} className='relative'> 
-                    <CiHeart size={32} /> 
+                <Link to={"/favorits"} className='relative top-1'> 
+                    <CiHeart className=' size-7' />
                     <i className='absolute -top-1 -right-2 text-white text-xs bg-blue-500 rounded-full p-1.5 py-0.5'> {FavoritesProducts} </i> 
                 </Link>
 
-                <Link to="/panier" className='relative'> 
-                    <CiShoppingCart size={32} /> 
+                <Link to="/panier" className='relative top-1'> 
+                    <CiShoppingCart className='size-7' /> 
                     <i className='absolute -top-1 -right-2 text-white text-xs bg-blue-500 rounded-full p-1.5 py-0.5'> {PanierProducts} </i> 
                 </Link>
 
@@ -65,11 +65,11 @@ function Navbar() {
                     ?
                         <button 
                             onClick={()=> setOpenProfile(!openProfile)}
-                            className={`${openProfile && 'bg-blue-100'} hover:bg-blue-200 p-2 rounded-full transition-all`}
+                            className={`${openProfile && 'bg-blue-100'}  hover:bg-blue-200 p-2 rounded-full transition-all`}
                         > <CiUser size={32} /> </button>
                     :   
                         <button
-                            className='border-2 border-gray-500 my-1.5 px-6 py-1 rounded-md hover:bg-blue-500 hover:border-gray-600 hover:text-white transition-all'
+                            className=' text-sm md:text-md border border-gray-500 my-1.5 px-6 py-1 rounded-md hover:bg-blue-500 hover:border-gray-600 hover:text-white transition-all'
                             onClick={openAuth}
                         > Sign In </button>
                 }

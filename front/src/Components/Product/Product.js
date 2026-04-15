@@ -2,17 +2,13 @@ import React, { useState } from 'react'
 import { BsFillCartPlusFill } from "react-icons/bs";
 import { useDispatch, useSelector } from 'react-redux';
 import { getPanier, panierActions } from '../../redux/Slices/PanierSlices';
-import { getProducts, productActions } from '../../redux/Slices/ProductSlice';
+import { productActions } from '../../redux/Slices/ProductSlice';
 import { TiPlus } from 'react-icons/ti';
 import { MdOutlineRemove } from 'react-icons/md';
 import { CiTrash } from 'react-icons/ci';
-import { PiHeartStraightFill } from 'react-icons/pi';
-import { GetCategorie, apiUrl } from '../Functions';
+import { BaseUrl, GetCategorie, apiUrl } from '../Functions';
 import Favorits from './Components/Favorits';
-import { authPageActions } from '../../redux/Slices/AuthSlice';
 import axios from 'axios';
-import { getFavorits } from '../../redux/Slices/FavoritsSlice';
-import { FaCircle } from "react-icons/fa";
 
 
 export function ProductPanier({item}){
@@ -23,7 +19,7 @@ export function ProductPanier({item}){
 
 
   const Remove = () => {
-      axios.delete(`http://127.0.0.1:8000/api/panierpk/${item.id}/`)
+      axios.delete(`${BaseUrl}/api/panierpk/${item.id}/`)
         .then((res)=> {
           dispatch(getPanier(item?.userId))
           dispatch(panierActions.removeSelectProduct(item.id))
@@ -41,34 +37,15 @@ export function ProductPanier({item}){
   };
 
 
-  let userId= useSelector(state => state.User.data?.id)
 
-  const addToFav = () => {
-      if(userId === undefined){
-        dispatch(authPageActions.open())
-      }else{
-          let fav = {
-              userId: userId,
-              productId: item.productId.id
-          }
-      
-          axios.post('http://127.0.0.1:8000/api/favoris/', fav)
-              .then((res)=> {
-                  dispatch(getFavorits(userId))
-                  dispatch(getProducts())
-          })
-          .catch((err)=> {
-              console.log(err);
-          })
-      }
-  }
+ 
   
   const addQuantite = () => {
     setcounter(counter+1)
 
     let quantite = counter + 1
 
-    axios.patch(`http://127.0.0.1:8000/api/panierpk/${item?.id}/`, {quantite})
+    axios.patch(`${BaseUrl}/api/panierpk/${item?.id}/`, {quantite})
       .then((res)=>{
         dispatch(getPanier(item?.userId))
       })
@@ -82,7 +59,7 @@ export function ProductPanier({item}){
 
     let quantite = counter - 1
 
-    axios.patch(`http://127.0.0.1:8000/api/panierpk/${item?.id}/`, {quantite})
+    axios.patch(`${BaseUrl}/api/panierpk/${item?.id}/`, {quantite})
       .then((res)=>{
         dispatch(getPanier(item?.userId))
       })
@@ -107,22 +84,22 @@ export function ProductPanier({item}){
 
 
  return (
-      <div className={`${selected.length !== 0  ? 'bg-blue-100' : 'bg-white'} cursor-pointer transition-all w-full px-2 py-2 flex rounded-md items-stretch`}>
-          <img onClick={selectProduct} className='w-36 h-28 rounded-sm' alt='' src={`${apiUrl}${item.productId.image}`} />
+      <div className={`${selected?.length !== 0  ? 'bg-blue-100' : 'bg-white'} cursor-pointer transition-all w-full px-2 py-2 flex flex-col md:flex-row rounded-md items-stretch`}>
+          <img onClick={selectProduct} className='w-36 h-28 rounded-sm mx-auto' alt='' src={`${apiUrl}${item.productId.image}`} />
           <div className=' left text-left  mx-3 w-full flex flex-col'>
               <div onClick={selectProduct} className='pt-2 h-full'> 
                   <div className='text-2xl font-medium flex items-center space-x-6 mb-1'> 
                     <h1>{item.productId.titre} </h1>
                     <div className='opacity-90 flex items-center'>
-                      <span className="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded"> {item?.size ?? "size"} </span>
-                      <span className="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded"> {categorie.titre ?? "Categorie"} </span>
+                      <span className={`${selected?.length !== 0  ? 'bg-white' : 'bg-blue-100'} text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded`}> {item?.size ?? "size"} </span>
+                      <span className={`${selected?.length !== 0  ? 'bg-white' : 'bg-blue-100'} bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded`}> {categorie.titre ?? "Categorie"} </span>
                     </div>
                   </div>
                   <h2 className=' text-lg font-bold'> Price: ${item.productId.prix}</h2>
                   <h2 className=' text-lg font-bold'> Total: ${item.productId.prix*item?.quantite}</h2>
               </div>
           
-              <div className=' cursor-default flex space-x-2 justify-end  items-center mt-3'>
+              <div className=' cursor-default flex space-x-2 justify-end  items-center mt-3 px-2 md:px-0'>
                   <div className='flex'>
                       <button onClick={addQuantite} className=' border-2 rounded-l-lg px-2'>
                           <TiPlus />
@@ -134,11 +111,6 @@ export function ProductPanier({item}){
                   </div>
                   <button onClick={Remove} className=' opacity-40 hover:opacity-100 transition-all '>
                       <CiTrash size={25} />
-                  </button>
-                  <button onClick={addToFav}
-                      className='opacity-20 hover:text-red-500 hover:opacity-100  transition-all'
-                  >
-                      <PiHeartStraightFill size={25}/>
                   </button>
               </div> 
           </div>
@@ -156,15 +128,15 @@ export function Product({item, favorit}) {
   const [hover, setHover] = useState(false)
 
   return (
-    <div className=' rounded-sm w-fit mb-6 overflow-hidden  p-2 hover:shadow-xl transition-all'>
-        <div className='h-72 relative mb-1' > 
+    <div className=' rounded-sm mb-6 overflow-hidden  w-full  p-2 hover:shadow-xl transition-all'>
+        <div className='h-80 relative mb-1 ' > 
           <button 
-            className='h-full'
+            className='h-full w-full'
             onMouseEnter={()=> setHover(true)} 
             onMouseLeave={()=> setHover(false)}
             onClick={OpenProduct}
           >
-            <img src ={item.image}  className='h-full rounded-sm' alt='product' />  
+            <img src ={item.image}  className='h-full bg-green-600 rounded-sm w-full' alt='product' />  
           </button>
           
           <Favorits item={item} hover={hover} setHover={setHover} favorit={favorit} />
@@ -195,7 +167,7 @@ export const  ProdcutSearch = ({item}) => {
   return (
     <button onClick={OpenProduct} className='flex space-x-2 hover:bg-gray-300 p-2 rounded-md transition-all'>
       <div className='w-20 rounded-md overflow-hidden'>
-        <img className='w-20 h-20' src={`http://127.0.0.1:8000/${item.image}`} alt={`image ${item.id}`} />
+        <img className='w-20 h-20' src={`${BaseUrl}/${item.image}`} alt={`image ${item.id}`} />
       </div>
       <div className='flex justify-between flex-1'>
         <h1> {item.titre} </h1>
@@ -210,7 +182,7 @@ export const ProductCommande = ({item}) => {
 
   return(
     <div className='bg-gray-100 w-full rounded-sm px-2 py-2 flex flex-row space-x-4'>
-      <img src={`${apiUrl}${item?.productId?.image}`} alt={`image ${item.id}`} className='w-40 rounded-sm' />
+      <img src={`${apiUrl}${item?.productId?.image}`} alt={`product${item.id}`} className='w-40 rounded-sm' />
       <div className='w-full py-2'>
         <div className='text-2xl font-medium flex items-center space-x-6 mb-1'> 
           <h1>{item.productId.titre} </h1>

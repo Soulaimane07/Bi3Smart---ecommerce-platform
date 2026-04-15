@@ -11,22 +11,28 @@ function Search() {
     const [searchTerm, setSearchTerm] = useState('')
 
     useEffect(()=> {
-        dispatch(searchActions.search(searchTerm))
-    }, [searchTerm])
+        // Define a debounce function
+        const debounceSearch = setTimeout(() => {
+            dispatch(searchActions.search(searchTerm));
+        }, 200); // Adjust debounce delay as needed
 
-  return (
-    <div className='absolute left-0 right-0 mx-auto flex space-x-3 items-center  bg-gray-200 rounded-full w-1/3 px-4 py-1'>
-        <div className='text-gray-400'>
-            <CiSearch size={24} />
+        // Clear the timeout on component unmount or when searchTerm changes
+        return () => clearTimeout(debounceSearch);
+    }, [searchTerm, dispatch])
+
+    return (
+        <div className='absolute hidden left-0 right-0 mx-auto md:flex space-x-3 items-center  bg-gray-200 rounded-full w-1/3 px-4 py-1'>
+            <div className='text-gray-400'>
+                <CiSearch size={24} />
+            </div>
+            <input
+                className='bg-transparent w-full outline-none py-1 placeholder:text-gray-400' 
+                placeholder='Search for products' 
+                onChange={(e)=> setSearchTerm(e.target.value)}
+            />
+            {openedSearch && <SearchZone />}
         </div>
-        <input
-            className='bg-transparent w-full outline-none py-1 placeholder:text-gray-400' 
-            placeholder='Search for products' 
-            onChange={(e)=> setSearchTerm(e.target.value)}
-        />
-        {openedSearch && <SearchZone />}
-    </div>
-  )
+    )
 }
 
 export default Search

@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { UserActions } from '../../../redux/Slices/UserSlice'
 import { IoAlertCircleOutline, IoClose } from 'react-icons/io5'
+import { BaseUrl } from '../../../Components/Functions'
 
 function MyInformayion() {
     const user = useSelector(state => state.User?.data)
@@ -31,7 +32,7 @@ function MyInformayion() {
         e.preventDefault();
         setLoading(true)
 
-        axios.patch(`http://127.0.0.1:8000/api/users/${user?.id}/`, data)
+        axios.patch(`${BaseUrl}/api/users/${user?.id}/`, data)
             .then((res)=> {
                 console.log(res.data);
                 setSuccess(true)
@@ -52,7 +53,7 @@ function MyInformayion() {
     }
 
   return (
-    <form onSubmit={Update} className=' mx-auto w-1/2'>
+    <form onSubmit={Update} className=' mx-auto w-full md:w-1/2 '>
         {success && 
             <div className=' bg-green-500 text-white border border-spacing-2 justify-between w-full mb-4 transition-all px-4 pr-2 py-2 rounded-sm border-green-500 flex space-x-2 items-center '>
                 <div className='flex items-center space-x-2'>

@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { ProdcutSearch } from '../Product/Product';
 import axios from 'axios';
 import { ProductsSearchSkeletonList } from '../Skeletons';
+import { BaseUrl } from '../Functions';
 
 function SearchZone() {
     let searchTerm = useSelector(state => state.Search.data)
@@ -10,9 +11,10 @@ function SearchZone() {
     const [products, setProducts] = useState([])
 
     useEffect(()=>{
-        axios.get(`http://127.0.0.1:8000/api/searchproducts/${searchTerm}/`)
+        axios.get(`${BaseUrl}/api/searchproducts/${searchTerm}/`)
             .then((res)=> {
                 setProducts(res.data)
+                console.log(res.data)
             })
             .catch((err)=> {
                 console.error(err);

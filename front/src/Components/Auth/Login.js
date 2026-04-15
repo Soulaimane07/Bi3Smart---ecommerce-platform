@@ -5,6 +5,7 @@ import { authPageActions } from '../../redux/Slices/AuthSlice';
 import { UserActions } from '../../redux/Slices/UserSlice';
 import { getFavorits } from '../../redux/Slices/FavoritsSlice';
 import { getPanier } from '../../redux/Slices/PanierSlices';
+import { BaseUrl } from '../Functions';
 
 function Login({setPage}) {
     const dispatch = useDispatch()
@@ -21,7 +22,7 @@ function Login({setPage}) {
         setErr(null)
         dispatch(UserActions.loading())
 
-        fetch("http://127.0.0.1:8000/api/users/login/", {
+        fetch(`${BaseUrl}/api/users/login/`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -53,7 +54,7 @@ function Login({setPage}) {
     let condittion = email === '' || password === ''
 
   return (
-    <div className='relative bg-gray-800 text-white h-fit w-1/4 rounded-lg py-10 px-10'>
+    <div className='relative bg-gray-800 text-white h-fit mx-4 md:mx-0 md:w-1/4 rounded-lg py-10 px-10'>
         <button onClick={closeAuth} className='absolute top-4 right-4 text-white opacity-80 hover:opacity-100 hover:scale-110 transition'> <IoClose size={30} /> </button>
         
         <h1 className='text-center text-3xl mb-6'> Sign In </h1>

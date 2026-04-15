@@ -4,7 +4,7 @@ import Footer from '../../../Components/Footer/Footer'
 import SellerSidebar from '../../../Components/Navbar/Seller/SellerSidebar'
 import Sidebar from '../../../Components/Navbar/Sidebar'
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { GetCategories, GetProduct, GetProducts } from '../../../Components/Functions';
+import { BaseUrl, GetCategories, GetProduct, GetProducts } from '../../../Components/Functions';
 import axios from 'axios';
 import Error from '../../../Components/Error/Error';
 import { IoIosClose } from 'react-icons/io';
@@ -71,7 +71,7 @@ function EditProduct() {
       setLoading(true)
       setMessage(null)
 
-      axios.patch(`http://127.0.0.1:8000/api/products/${id}`,newProduct, {
+      axios.patch(`${BaseUrl}/api/products/${id}`,newProduct, {
               headers: {
               "Content-Type": "multipart/form-data",
               },

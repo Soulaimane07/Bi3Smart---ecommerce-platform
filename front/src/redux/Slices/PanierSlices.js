@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios';
+import { BaseUrl } from '../../Components/Functions';
 
 export const getPanier = createAsyncThunk('panier', async (userId)=> {
   try {
-    const response = await axios.get(`http://127.0.0.1:8000/api/panier/${userId}/`)
+    const response = await axios.get(`${BaseUrl}/api/panier/${userId}/`)
     return response.data
   } catch (error) {
     console.log(error);

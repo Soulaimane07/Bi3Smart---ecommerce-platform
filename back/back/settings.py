@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_ROOT = ''
@@ -32,10 +33,11 @@ ALLOWED_HOSTS = []
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
+    'http://bi3smart.s3-website.eu-west-3.amazonaws.com',
 ]
 
 CORS_ALLOW_CREDENTIALS = True
-
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Application definition
 
@@ -66,6 +68,8 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "http://localhost:3001",
+    "http://bi3smart.s3-website.eu-west-3.amazonaws.com",
 ]
 
 ROOT_URLCONF = 'back.urls'
@@ -94,10 +98,16 @@ WSGI_APPLICATION = 'back.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'bi3smart',  # Name of your MySQL database
+        'USER': 'admin',  # Your RDS MySQL username
+        'PASSWORD': 'password1234',  # Your RDS MySQL password
+        'HOST': 'bi3smart-db.cjqo6ywc0hfl.eu-west-3.rds.amazonaws.com',  # Endpoint of your RDS instance
+        'PORT': '3306',  # MySQL's default port
     }
 }
+
+
 
 
 # Password validation

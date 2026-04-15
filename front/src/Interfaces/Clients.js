@@ -4,10 +4,8 @@ import Home from '../Pages/Client/Home/Home';
 import Favorits from '../Pages/Client/Favorits/Favorits';
 import Panier from '../Pages/Client/Panier/Panier';
 import { Categories } from '../Pages/Client/Categories/Categories';
-import Commande from '../Pages/Client/Commande/Commande';
 import Layout from '../Components/Layout';
 import Profile from '../Pages/Client/Profile/Profile';
-import Payment from '../Pages/Client/Payment/Payment';
 
 function Clients() {
     
@@ -18,9 +16,7 @@ function Clients() {
         <Route path="categorie/:categorie" element={<Categories />} />
         <Route path="favorits"  element={<Favorits/>}/>
         <Route path="panier" element={<Panier />} />
-        <Route path="commande" element={<Commande />} />
         <Route path="profile" element={<Profile />} />
-        <Route path="payment" element={<Payment />} />
       </Route>
     </Routes>
   )

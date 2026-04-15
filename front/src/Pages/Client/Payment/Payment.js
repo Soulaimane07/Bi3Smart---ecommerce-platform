@@ -13,7 +13,7 @@ const ProductDisplay = () => (
       <h5>$20.00</h5>
       </div>
     </div>
-    <form action={`http://127.0.0.1:8000/payment/checkout/`} method="POST">
+    <form action={`${BaseUrl}/payment/checkout/`} method="POST">
       <button type="submit">
         Checkout
       </button>

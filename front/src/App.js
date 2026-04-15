@@ -11,6 +11,7 @@ import { UserActions } from './redux/Slices/UserSlice';
 import  Product  from './Pages/Client/Products/Product';
 import { favoritsActions, getFavorits } from './redux/Slices/FavoritsSlice';
 import { getPanier, panierActions } from './redux/Slices/PanierSlices';
+import { GetTopButton } from './Components/Buttons';
  
 function App() { 
   let productPage = useSelector(state => state.ProductPage.opened)
@@ -38,6 +39,8 @@ function App() {
       <Clients />
       <Seller />
       <Admin />
+
+      <GetTopButton />
 
       {authPage && <Auth />}
       {productPage && <Product />}

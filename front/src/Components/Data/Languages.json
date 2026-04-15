@@ -1,0 +1,14 @@
+{
+    "english": {
+        "title": "English",
+        "sub": "en"
+    },
+    "frensh": {
+        "title": "Francais",
+        "sub": "fr"
+    },
+    "arabic": {
+        "title": "اللغة العربية",
+        "sub": "ar"
+    }
+}

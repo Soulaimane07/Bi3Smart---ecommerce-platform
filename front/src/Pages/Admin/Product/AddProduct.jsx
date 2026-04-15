@@ -3,7 +3,7 @@ import Footer from '../../../Components/Footer/Footer'
 import Sidebar from '../../../Components/Navbar/Sidebar'
 import { Link } from 'react-router-dom';
 import { FaArrowLeft } from "react-icons/fa6";
-import { GetCategories } from '../../../Components/Functions';
+import { BaseUrl, GetCategories } from '../../../Components/Functions';
 import axios from 'axios';
 import SellerNavbar from '../../../Components/Navbar/Seller/SellerNavbar'
 import { useNavigate } from 'react-router-dom';
@@ -46,7 +46,7 @@ function AddProduct() {
 
     const Create = (e) => {
         // e.preventDefault();
-        axios.post('http://127.0.0.1:8000/api/products/', newProduct, {
+        axios.post(`${BaseUrl}/api/products/`, newProduct, {
             headers: {
               "Content-Type": "multipart/form-data",
             },

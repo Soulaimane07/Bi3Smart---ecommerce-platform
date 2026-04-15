@@ -43,7 +43,7 @@
   background-position: center;
   background-size: cover;
   background-attachment: fixed;
-  height: 440px;
+  height: 60vh;
 }
 
 .ImageBG {
@@ -113,5 +113,24 @@ backdrop-filter: blur(1.2px);
 
 
 
-.Image {
+
+
+.scroll-to-top-button:hover {
+  transform: translateY(-5px); /* Example hover effect */
+}
+
+@keyframes jump-twice {
+  0%, 20%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-20px);
+  }
+  60% {
+    transform: translateY(-10px);
+  }
+}
+
+.jump-twice {
+  animation: jump-twice 0.5s ease-in-out 2; /* Adjust duration and iteration count as needed */
 }

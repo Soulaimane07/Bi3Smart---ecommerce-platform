@@ -6,6 +6,7 @@ from rest_framework.response import Response
 
 from .models import User, SellerRequests ,Categorie, Products, Favoris, Panier
 from django.db.models import Q
+# import google.generativeai as genai
 
 
 
@@ -72,9 +73,6 @@ class UserLogin(APIView):
             return Response("Email parameter missing", status=status.HTTP_400_BAD_REQUEST)
         
 
-
-
-
 class SellerRequestsList(generics.ListCreateAPIView):
     queryset = SellerRequests.objects.all()
     serializer_class = SellerRequestsSerializer
@@ -84,6 +82,8 @@ class SellerRequestsPk(generics.RetrieveUpdateDestroyAPIView):
     queryset = SellerRequests.objects.all()
     serializer_class = SellerRequestsSerializer
     lookup_field = "pk"
+
+
 
 
 
@@ -119,8 +119,6 @@ class CategorieReqTitle(generics.ListAPIView):
             return Response(serializer.data)
 
 
-
-
 class ProductsReq(generics.ListAPIView):
     serializer_class = ProductsSerializer
 
@@ -145,34 +143,6 @@ class ProductsReqPk(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = "pk"
     
 
-def getproductby(self, request, format=None):
-    categorie = request.data.get("categorie", "") 
-    print(categorie)
-
-    products = Products.objects.all()
-    serializer = ProductsSerializer(products) 
-    return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-
-class Search(generics.ListCreateAPIView):
-    serializer_class = ProductsSerializer
-
-    def get_queryset(self):
-        search_term = self.kwargs.get('searchTerm')
-
-        if search_term:
-            products = Products.objects.filter(titre__icontains=search_term)
-        else:
-            products = Products.objects.all()
-
-        return products
-
-    def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        serializer = self.serializer_class(queryset, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-
 class Productbyidseller(generics.ListAPIView):
     serializer_class = ProductsSerializer
 
@@ -182,6 +152,45 @@ class Productbyidseller(generics.ListAPIView):
             return Products.objects.filter(seller=sellerid)
         else:
             return Products.objects.all()
+
+
+
+
+
+
+
+class Search(generics.ListCreateAPIView):
+    serializer_class = ProductsSerializer
+
+    def get_queryset(self):
+        search_term = self.kwargs.get('searchTerm')
+        if not search_term:
+            return Products.objects.none()
+
+        api_key = 'test'
+        genai.configure(api_key=api_key)
+        model = genai.GenerativeModel('gemini-pro')
+        chat = model.start_chat(history=[])
+
+        
+        productslist = Products.objects.all()
+        
+        instructions= 'i want the answer to be only from this list and just one  : ', productslist
+        instructions2='  i want the response '
+        condition ='this :%20 means space '
+        
+        response = chat.send_message(condition + str(instructions)   + search_term )
+        print(response.text)
+        return Products.objects.filter(titre__icontains=response.text )  
+        
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+
+
         
 
 
@@ -245,7 +254,10 @@ class getFavPk(generics.RetrieveUpdateDestroyAPIView):
     queryset = Favoris.objects.all()
     serializer_class = FavSerializer
     lookup_field = "pk"
+    
 
+
+        
 
 
 

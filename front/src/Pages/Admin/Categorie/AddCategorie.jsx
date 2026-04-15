@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import Footer from '../../../Components/Footer/Footer'
 import Sidebar from '../../../Components/Navbar/Sidebar'
-import { Link } from 'react-router-dom';
+
 import { FaArrowLeft } from "react-icons/fa6";
 import axios from 'axios';
 import SellerNavbar from '../../../Components/Navbar/Seller/SellerNavbar'
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { BaseUrl } from '../../../Components/Functions';
 
 const Buttons = ({createFun, condittion}) => {
   return(
@@ -34,18 +36,19 @@ let condittion = titre.length === 0 || image === null
 
 console.log(newCategory);
 
-
+const navigate = useNavigate()
 const Create = (e) => {
     // e.preventDefault();
     console.log("Created !");
 
-    axios.post('http://127.0.0.1:8000/api/categorie/', newCategory, {
+    axios.post(`${BaseUrl}/api/categorie/`, newCategory, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       })
         .then(res => {
             console.log(res);
+            navigate("/admin/readcategorie")
         })
         .catch(err => {
             console.log(err);

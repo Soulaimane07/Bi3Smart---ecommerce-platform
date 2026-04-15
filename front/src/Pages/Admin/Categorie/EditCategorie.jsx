@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { FaArrowLeft, FaUpDown } from "react-icons/fa6";
 import axios from 'axios';
 import SellerNavbar from '../../../Components/Navbar/Seller/SellerNavbar'
-import { GetCategorie } from '../../../Components/Functions';
+import { BaseUrl, GetCategorie } from '../../../Components/Functions';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
@@ -52,7 +52,7 @@ const Update = (e) => {
   // e.preventDefault();
   console.log("Updated!");
 
-  axios.patch(`http://127.0.0.1:8000/api/categorie/${id}`, newCategory, {
+  axios.patch(`${BaseUrl}/api/categorie/${id}`, newCategory, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -89,7 +89,7 @@ const [clearImage, setClearImage] = useState(false)
       <main className='bg-gray-100 px-8 py-6 rounded-sm'>
           <div  className='bg-white px-6 py-6 rounded-sm '>
               <div className='w-full flex items-stretch space-x-8'>
-                  <div className="w-2/5 flex items-center justify-center">
+                  <div className="w-2/5 flex items-center justify-center relative">
                   {image && <div onMouseEnter={()=> setClearImage(true)} onMouseLeave={()=> setClearImage(false)} className='Image absolute top-0 left-0 flex w-full h-full justify-center items-center  '>
                               {clearImage && 
                                   <div onClick={()=> setImage(null)} className=' cursor-pointer  flex w-full h-full justify-center items-center'>

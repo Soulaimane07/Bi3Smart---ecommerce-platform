@@ -15,7 +15,7 @@ function Home() {
     <>
         <Navbar />
 
-        <main className='min-h-screen mt-28'>
+        <main className='min-h-screen mt-24 md:mt-28 w-full overflow-hidden'>
             <Header />
             <Features />
             <Categories />

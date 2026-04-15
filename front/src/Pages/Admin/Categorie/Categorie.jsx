@@ -1,5 +1,5 @@
 import React from 'react'
-import { GetCategories } from '../../../Components/Functions'
+import { GetCategories,Removecategorie } from '../../../Components/Functions'
 import { CiTrash } from 'react-icons/ci';
 import { BiEditAlt } from "react-icons/bi";
 import { IoAdd } from "react-icons/io5";
@@ -51,7 +51,7 @@ function Categorie() {
                    <BiEditAlt size={25} />
                </button>
                </Link>
-               <button  className=' opacity-40 hover:opacity-100 hover:text-red-600 transition-all '>
+               <button onClick={()=>Removecategorie(Categorie.id)}  className=' opacity-40 hover:opacity-100 hover:text-red-600 transition-all '>
                    <CiTrash size={25} />
                </button>
                </td>

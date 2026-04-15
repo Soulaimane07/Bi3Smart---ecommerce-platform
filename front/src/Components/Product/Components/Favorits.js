@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { authPageActions } from '../../../redux/Slices/AuthSlice';
 import { getProducts, getProductsByCategorie } from '../../../redux/Slices/ProductSlice';
 import { getFavorits } from '../../../redux/Slices/FavoritsSlice';
+import { BaseUrl } from '../../Functions';
 
 function Favorits({item, hover, setHover, favorit}) {
     const dispatch = useDispatch()
@@ -20,7 +21,7 @@ function Favorits({item, hover, setHover, favorit}) {
                 productId: item.id
             }
         
-            axios.post('http://127.0.0.1:8000/api/favoris/', fav)
+            axios.post(`${BaseUrl}/api/favoris/`, fav)
                 .then((res)=> {
                     dispatch(getFavorits(userId))
                     dispatch(getProducts())
@@ -41,7 +42,7 @@ function Favorits({item, hover, setHover, favorit}) {
                 productId: item.id
             }
         
-            axios.post('http://127.0.0.1:8000/api/removefavoris/', fav)
+            axios.post(`${BaseUrl}/api/removefavoris/`, fav)
                 .then((res)=> {
                     dispatch(getFavorits(userId))
                     dispatch(getProducts())

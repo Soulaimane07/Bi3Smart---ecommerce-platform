@@ -6,7 +6,7 @@ import stripe
 from rest_framework.views import APIView
 from .models import Commande
 
-stripe.api_key = 'sk_test_51PC4svCTx4GzaOVoWDMO1mu10CePR7AiYaxpEUmOrba009xfpxx9sMGfbs6zI8hpnXnbs5KEoWdlZarmBagMm2KS00yQHUNBAM'
+stripe.api_key = 'test'
 
 class CreateCheckoutSessionView(APIView):
     def post(self, request):

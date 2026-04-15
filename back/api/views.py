@@ -167,7 +167,7 @@ class Search(generics.ListCreateAPIView):
         if not search_term:
             return Products.objects.none()
 
-        api_key = 'AIzaSyAmbRMhkWdPbqRp04UYPKwX1o0toL2Y5iA'
+        api_key = 'test'
         genai.configure(api_key=api_key)
         model = genai.GenerativeModel('gemini-pro')
         chat = model.start_chat(history=[])

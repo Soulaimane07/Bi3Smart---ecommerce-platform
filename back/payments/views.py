@@ -53,7 +53,7 @@ class CreateCheckoutSessionView(APIView):
 
 @csrf_exempt
 def stripe_webhook(request):
-    endpoint_secret = 'whsec_4236b7c3d758f5cdc8611adfb9baca3e1b76afa8bcb809bf124da271ee3126e9'
+    endpoint_secret = 'test'
     payload = request.body
     sig_header = request.headers.get('stripe-signature')
     event = None
